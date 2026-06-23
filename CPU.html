@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPU Reliability Testing — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black:  #111111;
+    --text:   #D0C0D8;
+    --muted:  #888888;
+    --teal:   #D0C0D8;
+    --card:   #181818;
+    --border: rgba(255,255,255,0.08);
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    position: fixed;
+    top: 20px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem;
+    background: rgba(20,15,30,0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+  .navbar a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .navbar a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .navbar a.back { color: var(--teal); }
+
+  /* HERO */
+  .gh-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 120px 8vw 60px;
+    background: #111111;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .gh-hero::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(235,225,255,0.7) 0%, rgba(190,170,230,0.3) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ghGlowPulse 7s ease-in-out infinite;
+  }
+  .gh-hero::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: 60px;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(245,238,255,0.55) 0%, rgba(208,192,216,0.25) 45%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ghGlowPulse2 5s ease-in-out infinite;
+  }
+  .gh-hero > * { position: relative; z-index: 1; }
+  @keyframes ghGlowPulse {
+    0%,100% { transform: scale(1);    opacity: 0.8; }
+    50%     { transform: scale(1.12); opacity: 1;   }
+  }
+  @keyframes ghGlowPulse2 {
+    0%,100% { transform: scale(0.9); opacity: 0.6; }
+    50%     { transform: scale(1.1); opacity: 1;   }
+  }
+  .gh-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .gh-label::before { content: '// '; opacity: 0.5; }
+  .gh-hero h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .gh-hero h1 span { color: var(--teal); }
+  /* IN PROGRESS badge */
+  .gh-progress {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #111;
+    background: var(--teal);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    margin-bottom: 1.2rem;
+    width: fit-content;
+    box-shadow: 0 0 18px rgba(208,192,216,0.4);
+  }
+  .gh-progress .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #111;
+    animation: blink 1.3s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+  .gh-hero p {
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
+    color: var(--muted);
+    max-width: 700px;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  .gh-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .gh-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    color: var(--text);
+  }
+
+  /* CONTENT */
+  .gh-content { width: 100%; padding: 80px 8vw; }
+  .gh-section { margin-bottom: 60px; }
+  .gh-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .gh-section-title::before { content: '// '; opacity: 0.5; }
+  .gh-section h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1.2rem;
+  }
+  .gh-section h2 span { color: var(--teal); }
+  .gh-section p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  /* params */
+  .gh-params {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+  .gh-param {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+  }
+  .gh-param-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .gh-param-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--teal);
+  }
+
+  /* components / list */
+  .gh-components {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+  .gh-comp {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+  .gh-comp::before { content: '▸ '; color: var(--teal); font-size: 0.7rem; }
+
+  /* logic steps */
+  .gh-steps {
+    margin-top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .gh-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+  }
+  .gh-step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--teal);
+    min-width: 2rem;
+    opacity: 0.6;
+  }
+  .gh-step-text { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+  .gh-step-text strong { color: var(--text); font-weight: 600; }
+
+  /* image */
+  .gh-img-wrap {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 1.2rem;
+    max-width: 750px;
+  }
+  .gh-img-wrap img { width: 100%; height: auto; max-height: 500px; object-fit: contain; display: block; }
+  .gh-img-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    padding: 0.7rem 1.2rem;
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.1em;
+  }
+
+  /* divider */
+  .gh-divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+
+  @media(max-width:768px){ .gh-params { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:480px){ .gh-params { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html#proj1" class="back">← Back</a>
+  <a href="index.html#proj1">Projects</a>
+  <a href="index.html#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<div class="gh-hero">
+  <div class="gh-label">computer architecture · reliability · embedded</div>
+  <div class="gh-progress"><span class="dot"></span> In Progress · MSc Thesis</div>
+  <h1>CPU Reliability <span>Testing Framework</span></h1>
+  <p>An MSc thesis project: design and implementation of a multi-core CPU reliability testing framework that detects hardware defects through carefully crafted arithmetic workloads. Built in C with a modular Built-In Self-Test (BIST) methodology and per-core fault detection via parallel execution.</p>
+  <div class="gh-tags">
+    <span class="gh-tag">C</span>
+    <span class="gh-tag">BIST</span>
+    <span class="gh-tag">IEEE 754</span>
+    <span class="gh-tag">Fault Models</span>
+    <span class="gh-tag">pthreads</span>
+    <span class="gh-tag">Multi-Core</span>
+    <span class="gh-tag">Linux</span>
+    <span class="gh-tag">CPU Affinity</span>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="gh-content">
+
+  <!-- Overview -->
+  <div class="gh-section">
+    <div class="gh-section-title">overview</div>
+    <h2>Project <span>Description</span></h2>
+    <p>The goal of this framework is to detect manufacturing and ageing defects inside a CPU's arithmetic units by running targeted test patterns &mdash; arithmetic workloads designed to sensitise specific hardware faults and propagate their effect to an observable output.</p>
+    <p>The framework focuses on the floating-point datapath (IEEE 754), targeting the FP Multiplier and FP Adder and their internal sub-units. Test patterns are derived from classic test-generation theory (controllability &amp; observability, D-Algorithm, PODEM) and executed in parallel across cores, with results compared via checksums to isolate per-core faults.</p>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Approach / Specs -->
+  <div class="gh-section">
+    <div class="gh-section-title">approach</div>
+    <h2>Framework <span>Overview</span></h2>
+    <div class="gh-params">
+      <div class="gh-param">
+        <div class="gh-param-label">Language</div>
+        <div class="gh-param-value">C</div>
+      </div>
+      <div class="gh-param">
+        <div class="gh-param-label">Methodology</div>
+        <div class="gh-param-value">BIST</div>
+      </div>
+      <div class="gh-param">
+        <div class="gh-param-label">Target</div>
+        <div class="gh-param-value">FP Datapath</div>
+      </div>
+      <div class="gh-param">
+        <div class="gh-param-label">Parallelism</div>
+        <div class="gh-param-value">1&ndash;8 cores</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Fault models -->
+  <div class="gh-section">
+    <div class="gh-section-title">theory</div>
+    <h2>Fault <span>Models</span></h2>
+    <p>The framework is built around detecting several classes of hardware faults that can appear in arithmetic logic:</p>
+    <div class="gh-components">
+      <div class="gh-comp">Stuck-At-0 (SA0)</div>
+      <div class="gh-comp">Stuck-At-1 (SA1)</div>
+      <div class="gh-comp">Transition / Delay Faults</div>
+      <div class="gh-comp">Bridging Faults</div>
+      <div class="gh-comp">Sequential Faults</div>
+      <div class="gh-comp">Timing Faults</div>
+    </div>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Targeted sub-units -->
+  <div class="gh-section">
+    <div class="gh-section-title">target hardware</div>
+    <h2>Tested <span>Sub-Units</span></h2>
+    <div class="gh-components">
+      <div class="gh-comp">Sign Unit</div>
+      <div class="gh-comp">Exponent Adder</div>
+      <div class="gh-comp">Mantissa Multiplier (Wallace Tree)</div>
+      <div class="gh-comp">Normalizer</div>
+      <div class="gh-comp">Rounder (round / sticky bits)</div>
+      <div class="gh-comp">Aligner / Shifter (FP Adder)</div>
+    </div>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Architecture -->
+  <div class="gh-section">
+    <div class="gh-section-title">architecture</div>
+    <h2>Framework <span>Architecture</span></h2>
+    <div class="gh-steps">
+      <div class="gh-step"><div class="gh-step-num">01</div><div class="gh-step-text"><strong>Modular C structure</strong> &mdash; shared declarations (bist.h), IEEE 754 utilities and core check routines (helpers.c), and a menu-driven interface (main.c).</div></div>
+      <div class="gh-step"><div class="gh-step-num">02</div><div class="gh-step-text"><strong>Test phases</strong> &mdash; separate phase files implementing distinct pattern strategies: orthogonal Cartesian testing, edge-case coverage walks, trapezoid accumulation, anti-masking sparse patterns, sticky &amp; rounding bounds, full-width Cartesian tiling, and pure random (fixed seed).</div></div>
+      <div class="gh-step"><div class="gh-step-num">03</div><div class="gh-step-text"><strong>Multi-core execution</strong> &mdash; each thread is pinned to a specific core via CPU affinity (cpu_set_t, pthread_setaffinity_np), allowing the same workload to run independently per core.</div></div>
+      <div class="gh-step"><div class="gh-step-num">04</div><div class="gh-step-text"><strong>Fault detection</strong> &mdash; results are compared via XOR checksums across cores; a mismatch isolates a per-core hardware fault.</div></div>
+    </div>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Status / next -->
+  <div class="gh-section">
+    <div class="gh-section-title">status</div>
+    <h2>Current <span>Progress</span></h2>
+    <div class="gh-steps">
+      <div class="gh-step"><div class="gh-step-num">✓</div><div class="gh-step-text">Theoretical foundation complete &mdash; fault models, sensitisation &amp; propagation, IEEE 754, Wallace Tree multiplier.</div></div>
+      <div class="gh-step"><div class="gh-step-num">✓</div><div class="gh-step-text">Modular BIST framework implemented in C with multi-phase test pattern generation.</div></div>
+      <div class="gh-step"><div class="gh-step-num">✓</div><div class="gh-step-text">Multi-core parallel execution with CPU affinity and checksum-based comparison.</div></div>
+      <div class="gh-step"><div class="gh-step-num">→</div><div class="gh-step-text">Ongoing: expanding fault coverage, benchmarking across cores, and writing up results for the thesis.</div></div>
+    </div>
+  </div>
+
+</div><!-- /gh-content -->
+
+<script>
+  // Reveal sections with an upward rise
+  (function() {
+    const items = document.querySelectorAll('.gh-hero > *, .gh-section, .gh-divider');
+    items.forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.7,.2,1)';
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    items.forEach(el => io.observe(el));
+    const heroItems = document.querySelectorAll('.gh-hero > *');
+    heroItems.forEach((el, i) => {
+      setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 120 + i * 120);
+    });
+  })();
+</script>
+
+</body>
+</html>

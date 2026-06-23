@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UAV / Drone Construction — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --black: #111111;
+    --text: #D0C0D8;
+    --muted: #888888;
+    --teal: #D0C0D8;
+    --card: #181818;
+    --border: rgba(255, 255, 255, 0.08);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  .navbar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem;
+    background: rgba(20, 15, 30, 0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+
+  .navbar a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .navbar a:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+  }
+
+  .navbar a.back {
+    color: var(--teal);
+  }
+
+  .gh-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 120px 8vw 60px;
+    background: #111111;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .gh-hero::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(235, 225, 255, 0.7) 0%, rgba(190, 170, 230, 0.3) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ghGlowPulse 7s ease-in-out infinite;
+  }
+
+  .gh-hero::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: 60px;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(245, 238, 255, 0.55) 0%, rgba(208, 192, 216, 0.25) 45%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ghGlowPulse2 5s ease-in-out infinite;
+  }
+
+  .gh-hero>* {
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes ghGlowPulse {
+
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.8
+    }
+
+    50% {
+      transform: scale(1.12);
+      opacity: 1
+    }
+  }
+
+  @keyframes ghGlowPulse2 {
+
+    0%,
+    100% {
+      transform: scale(0.9);
+      opacity: 0.6
+    }
+
+    50% {
+      transform: scale(1.1);
+      opacity: 1
+    }
+  }
+
+  .gh-hero h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .gh-hero h1 span {
+    color: var(--teal);
+  }
+
+  .gh-hero p {
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
+    color: var(--muted);
+    max-width: 700px;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .gh-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .gh-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    color: var(--text);
+  }
+
+  .gh-content {
+    width: 100%;
+    padding: 80px 8vw;
+  }
+
+  .gh-section {
+    margin-bottom: 60px;
+  }
+
+  .gh-section h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1.2rem;
+  }
+
+  .gh-section h2 span {
+    color: var(--teal);
+  }
+
+  .gh-section p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .gh-params {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+
+  .gh-param {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+  }
+
+  .gh-param-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .gh-param-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--teal);
+  }
+
+  .gh-components {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+
+  .gh-comp {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+
+  .gh-comp::before {
+    content: '▸ ';
+    color: var(--teal);
+    font-size: 0.7rem;
+  }
+
+  .gh-img-wrap {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 1.2rem;
+    max-width: 750px;
+  }
+
+  .gh-img-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    max-width: 1000px;
+    align-items: start;
+  }
+
+  .gh-img-row .gh-img-wrap {
+    margin-top: 0;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gh-img-row .gh-img-wrap img {
+    width: 100%;
+    aspect-ratio: 657 / 258;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    background: #0d0d0d;
+    display: block;
+  }
+
+  @media(max-width:680px) {
+    .gh-img-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .gh-img-wrap img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    display: block;
+    border-radius: 14px;
+  }
+
+  .gh-img-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    padding: 0.7rem 1.2rem;
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.1em;
+  }
+
+  .gh-steps {
+    margin-top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .gh-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+  }
+
+  .gh-step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--teal);
+    min-width: 2rem;
+    opacity: 0.6;
+  }
+
+  .gh-step-text {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .gh-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 60px 0;
+  }
+
+  @media(max-width:768px) {
+    .gh-params {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media(max-width:480px) {
+    .gh-params {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html#proj1" class="back">← Back</a>
+  <a href="index.html#proj1">Projects</a>
+  <a href="index.html#contact">Contact</a>
+</nav>
+<div class="gh-hero">
+  <h1>UAV <span>Construction</span></h1>
+  <p>Construction of a quadcopter UAV for scanning and data collection, designed to be controlled by a neural network. The drone is first flown via remote control, with the long-term goal of autonomous, onboard AI-driven navigation through an integrated microcontroller.</p>
+  <div class="gh-tags">
+    <span class="gh-tag">Quadcopter</span>
+    <span class="gh-tag">Neural Networks</span>
+    <span class="gh-tag">Arduino</span>
+    <span class="gh-tag">CleanFlight 2.6.0</span>
+    <span class="gh-tag">Flight Controller</span>
+    <span class="gh-tag">LiPo</span>
+    <span class="gh-tag">PID Tuning</span>
+    <span class="gh-tag">Simulation</span>
+  </div>
+</div>
+<div class="gh-content">
+  <div class="gh-section">
+    <h2>Project <span>Description</span></h2>
+    <p>This diploma thesis covers the construction of an unmanned aerial vehicle (UAV) capable of using artificial intelligence — specifically neural network models — for navigation and decision-making. It provides a detailed account of assembling a quadcopter that is initially controlled by a remote-control system and eventually steered automatically.</p>
+    <p>The flight controller is configured through CleanFlight (v2.6.0). The final objective is to run the neural network on a microcontroller (Arduino) mounted directly on the quadcopter, enabling real-time decisions about the drone's direction during flight.</p>
+  </div>
+  <div class="gh-section">
+    <h2>Assembled <span>Quadcopter</span></h2>
+    <p>The fully assembled UAV after hardware integration and wiring.</p>
+    <div class="gh-img-row">
+      <div class="gh-img-wrap">
+        <img src="drone2.png" alt="Assembled quadcopter UAV — view 1" onerror="this.parentElement.innerHTML='<div style=\'padding:3.5rem;text-align:center;font-family:JetBrains Mono,monospace;font-size:.75rem;color:#555;letter-spacing:.1em\'>[ DRONE PHOTO 1 — add drone2.png ]</div>'">
+        <div class="gh-img-caption">// Figure 1a — Quadcopter</div>
+      </div>
+      <div class="gh-img-wrap">
+        <img src="drone1.jpg" alt="Assembled quadcopter UAV — view 2" onerror="this.parentElement.innerHTML='<div style=\'padding:3.5rem;text-align:center;font-family:JetBrains Mono,monospace;font-size:.75rem;color:#555;letter-spacing:.1em\'>[ DRONE PHOTO 2 — add drone1.jpg ]</div>'">
+        <div class="gh-img-caption">// Figure 1b — Quadcopter</div>
+      </div>
+    </div>
+  </div>
+  <hr class="gh-divider">
+  <div class="gh-section">
+    <h2>System <span>Overview</span></h2>
+    <div class="gh-params">
+      <div class="gh-param"><div class="gh-param-label">Type</div><div class="gh-param-value">Quadcopter</div></div>
+      <div class="gh-param"><div class="gh-param-label">Firmware</div><div class="gh-param-value">CleanFlight 2.6.0</div></div>
+      <div class="gh-param"><div class="gh-param-label">AI Model</div><div class="gh-param-value">Neural Network</div></div>
+      <div class="gh-param"><div class="gh-param-label">Onboard MCU</div><div class="gh-param-value">Arduino</div></div>
+    </div>
+  </div>
+  <hr class="gh-divider">
+  <div class="gh-section">
+    <h2>System <span>Components</span></h2>
+    <div class="gh-components">
+      <div class="gh-comp">Frame (Quadcopter chassis)</div>
+      <div class="gh-comp">Brushless Motors ×4</div>
+      <div class="gh-comp">Flight Controller</div>
+      <div class="gh-comp">Power Distribution Board (BEC)</div>
+      <div class="gh-comp">Propellers</div>
+      <div class="gh-comp">ESC (Electronic Speed Controllers)</div>
+      <div class="gh-comp">LiPo Battery</div>
+      <div class="gh-comp">Remote Control System</div>
+      <div class="gh-comp">Receiver</div>
+      <div class="gh-comp">Buzzer</div>
+      <div class="gh-comp">Camera</div>
+      <div class="gh-comp">Arduino Microcontroller</div>
+    </div>
+  </div>
+  <hr class="gh-divider">
+  <div class="gh-section">
+    <h2>Assembly <span>Process</span></h2>
+    <div class="gh-steps">
+      <div class="gh-step"><div class="gh-step-num">01</div><div class="gh-step-text">Mount the arms, brushless motors and ESCs onto the frame.</div></div>
+      <div class="gh-step"><div class="gh-step-num">02</div><div class="gh-step-text">Install the Power Distribution Board (BEC) for power management across components.</div></div>
+      <div class="gh-step"><div class="gh-step-num">03</div><div class="gh-step-text">Mount the camera and the LiPo battery onto the chassis.</div></div>
+      <div class="gh-step"><div class="gh-step-num">04</div><div class="gh-step-text">Attach the propellers to the motors.</div></div>
+      <div class="gh-step"><div class="gh-step-num">05</div><div class="gh-step-text">Wire the electronics — connect the flight controller to the ESCs, the RC receiver, the battery and the buzzer.</div></div>
+    </div>
+  </div>
+  <hr class="gh-divider">
+  <div class="gh-section">
+    <h2>Flight <span>Configuration</span></h2>
+    <div class="gh-steps">
+      <div class="gh-step"><div class="gh-step-num">01</div><div class="gh-step-text">Initial setup of the flight controller in CleanFlight (v2.6.0).</div></div>
+      <div class="gh-step"><div class="gh-step-num">02</div><div class="gh-step-text">Configure ports and communication protocols.</div></div>
+      <div class="gh-step"><div class="gh-step-num">03</div><div class="gh-step-text">Map and test the motors / motor order.</div></div>
+      <div class="gh-step"><div class="gh-step-num">04</div><div class="gh-step-text">PID tuning for stable flight response.</div></div>
+    </div>
+  </div>
+  <hr class="gh-divider">
+  <div class="gh-section">
+    <h2>Neural Network <span>Training</span></h2>
+    <p>For autonomous flight, a neural network was trained to replace conventional decision-making algorithms. A simulated drone environment was built, complete with obstacles, to generate training data.</p>
+    <div class="gh-steps">
+      <div class="gh-step"><div class="gh-step-num">01</div><div class="gh-step-text">Build a drone simulation environment.</div></div>
+      <div class="gh-step"><div class="gh-step-num">02</div><div class="gh-step-text">Construct obstacles within the simulation for navigation scenarios.</div></div>
+      <div class="gh-step"><div class="gh-step-num">03</div><div class="gh-step-text">Train the neural network (Multilayer Perceptron) on the simulated data for real-time direction decisions.</div></div>
+    </div>
+  </div>
+</div>
+<script>
+  (function() {
+    const items = document.querySelectorAll('.gh-hero > *, .gh-section, .gh-divider');
+    items.forEach((el) => { el.style.opacity='0'; el.style.transform='translateY(28px)'; el.style.transition='opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.7,.2,1)'; });
+    const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; io.unobserve(e.target); } }); }, { threshold: 0.12 });
+    items.forEach(el => io.observe(el));
+    const heroItems = document.querySelectorAll('.gh-hero > *');
+    heroItems.forEach((el, i) => { setTimeout(() => { el.style.opacity='1'; el.style.transform='translateY(0)'; }, 120 + i * 120); });
+  })();
+</script>
+</body>
+</html>

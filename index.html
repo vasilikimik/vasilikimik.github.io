@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a class="navbar-logo" href="#hero">Vasiliki Mikeli<span>.</span></a>
+  <ul class="navbar-links" id="navLinks">
+    <div class="nav-slider" id="navSlider"></div>
+    <li><a href="#hero" class="active">Home</a></li>
+    <li><a href="#overview">About Me</a></li>
+    <li><a href="#exp">Experience</a></li>
+    <li><a href="#proj1">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<nav class="nav-dots">
+  <div class="nd active" data-t="hero"></div>
+  <div class="nd" data-t="overview"></div>
+  <div class="nd" data-t="exp"></div>
+  <div class="nd" data-t="proj1"></div>
+  <div class="nd" data-t="contact"></div>
+</nav>
+
+<!-- HERO -->
+<div class="panel" id="hero">
+  <div class="particle-field" id="particleField"></div>
+  <div class="hero-inner">
+    <div class="hero-mascot">
+      <img src="robot.png" alt="Mascot" class="mascot-img" onerror="this.style.display='none';">
+    </div>
+    <div class="hero-text">
+      <h1><span class="typewriter-line">Hi, my name is</span><br><span class="typewriter-line line2" style="color:var(--teal)">Vasiliki Mikeli.</span></h1>
+      <div class="hero-tag-group">
+        <p class="tag">Industrial Production Engineer · <em>MSc Computer Science</em><br>Embedded Systems &amp; Aerospace enthusiast<br></p>
+        <div class="hero-cv-row">
+          <a href="Vasiliki_Mikeli_CV.pdf" target="_blank" rel="noopener" class="hero-cv-btn">
+            <span class="cv-icon">↓</span> Download CV
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>scroll</span><div class="scroll-line"></div></div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="panel" id="overview">
+  <div class="ov-wrap">
+    <h2>Overview &amp; <span style="color:var(--teal)">Background</span></h2>
+    <p class="ov-intro">Engineering student with an M.Sc. in Computer Science, with hands-on experience in electronics,
+embedded systems, and hardware construction. Background in UAV development, processor reliability
+research, and student engineering competitions. Currently also gaining practical exposure in IT.</p>
+
+    <div class="ov-cards">
+      <div class="ov-card">
+        <div class="ov-icon">◆</div>
+        <div class="ov-card-title">Embedded Systems</div>
+        <div class="ov-card-sub">C · Microcontrollers · FPGA fundamentals · Linux</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-icon">⚙</div>
+        <div class="ov-card-title">Aerospace &amp; UAV</div>
+        <div class="ov-card-sub">Poseidon Team · Formula Student · Shell Eco Marathon</div>
+      </div>
+      <div class="ov-card">
+        <div class="ov-icon">●</div>
+        <div class="ov-card-title">Systems Reliability</div>
+        <div class="ov-card-sub">Multi-core CPU testing</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="panel" id="exp">
+  <div class="exp-inner">
+    <h2>Job <span style="color:var(--teal)">Experience</span></h2>
+    <div class="exp-sub-lbl">WHAT I HAVE DONE SO FAR</div>
+    <div class="tl" id="timeline">
+      <div class="tl-row">
+        <div class="tl-card">
+          <div class="jrole">IT Business Enablement/IT Service Desk</div>
+          <div class="jco">PwC · Internship</div>
+          <ul class="jbul">
+            <li>Designed and maintained a structured requirements database using Microsoft Dataverse, while developing automated workflows and status-tracking dashboards with Power Automate to support project traceability and process efficiency.</li>
+            <li> Provided first-level technical support to end users, troubleshooting and resolving hardware and software issues, managing service requests and incidents, and ensuring timely resolution of technical problems.</li>
+          </ul>
+        </div>
+        <div class="tl-dot"></div>
+        <div class="tl-date r">2026 — Present</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date l">2024</div>
+        <div class="tl-dot cu"></div>
+        <div class="tl-card">
+          <div class="jrole">Project Management</div>
+          <div class="jco">Netcompany</div>
+          <ul class="jbul">
+            <li>Responsible for evaluating project requirements.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-card">
+          <div class="jrole">Sales</div>
+          <div class="jco">Nestlé</div>
+        </div>
+        <div class="tl-dot"></div>
+        <div class="tl-date r">2021 — 2023</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date l">2020</div>
+        <div class="tl-dot cu"></div>
+        <div class="tl-card">
+          <div class="jrole">Technical Division</div>
+          <div class="jco">Ministry of Foreign Affairs · Internship</div>
+          <ul class="jbul">
+            <li>Worked on automation system design and technical drawings across various projects.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div class="panel" id="proj1">
+  <div style="max-width:1100px;margin:0 auto;width:100%">
+    <h2 style="font-size:clamp(1.6rem,3vw,2.4rem);margin-bottom:.4rem">Selected <span style="color:var(--teal)">Projects</span></h2>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--muted);margin-bottom:2rem;line-height:1.7;max-width:600px">Each project reflects work at the intersection of hardware and intelligent systems.</p>
+
+    <div class="pg-grid">
+
+      <div class="pg-card" onclick="window.location.href='Greenhouse.html'" style="cursor:pointer;">
+<div class="pg-img">
+    <img src="plant.jpeg" alt="Plant" style="max-width:100%; height:auto;"></div><div class="pg-body">
+          <div class="pg-tag">Embedded Systems · Arduino · Automation</div>
+          <div class="pg-title">Greenhouse Automation System</div>
+          <p class="pg-desc">Microcontroller-based greenhouse automation that monitors temperature and light intensity, controlling a fan motor and shading servo mechanism via Arduino Uno R3.</p>
+          <div class="pg-stack">
+            <span class="badge">Arduino</span><span class="badge">C++</span><span class="badge">Tinkercad</span><span class="badge">LCD</span><span class="badge">Servo</span><span class="badge">DC Motor</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pg-card" onclick="window.location.href='Drone.html'" style="cursor:pointer;">
+<div class="pg-img">
+    <img src="drone_image.jpeg" alt="Drone" style="max-width:100%; height:auto;"></div>        <div class="pg-body">
+          <div class="pg-tag">Aerospace · Neural Networks · Embedded</div>
+          <div class="pg-title">UAV Construction (Neural Network)</div>
+          <p class="pg-desc">Diploma thesis: construction of a quadcopter UAV for scanning and data collection, with a neural network trained for autonomous, real-time navigation via an onboard Arduino.</p>
+          <div class="pg-stack">
+            <span class="badge">Quadcopter</span><span class="badge">Neural Networks</span><span class="badge">Arduino</span><span class="badge">CleanFlight</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pg-card" onclick="window.location.href='CPU.html'" style="cursor:pointer;">
+        <div class="pg-img">
+    <img src="cpuimg.jpeg" alt="CPU" style="max-width:100%; height:auto;"></div>
+        <div class="pg-body">
+          <div class="pg-tag">Computer Architecture · Reliability · C</div>
+          <div class="pg-title">CPU Reliability Testing Framework</div>
+          <p class="pg-desc">MSc thesis (in progress): a multi-core CPU reliability testing framework that detects hardware defects through arithmetic workloads, using a BIST methodology and per-core fault detection.</p>
+          <div class="pg-stack">
+            <span class="badge">C</span><span class="badge">BIST</span><span class="badge">IEEE 754</span><span class="badge">pthreads</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="panel" id="contact">
+  <div class="particle-field" id="particleFieldContact"></div>
+  <div class="ct-inner">
+    <h2>Let's <span style="color:var(--teal)">Connect</span></h2>
+    <p class="ct-sub">Open to interesting problems in embedded systems, aerospace software, and the intersection of hardware &amp; intelligence.</p>
+    <div class="ct-links">
+      <div class="ct-item">
+        <button type="button" class="ct-link" data-reveal="ct-email">Email me</button>
+        <div class="ct-pop" id="ct-email"><span class="ct-info">vmikeli@outlook.com</span></div>
+      </div>
+      <div class="ct-item">
+        <button type="button" class="ct-link" data-reveal="ct-phone">Call me</button>
+        <div class="ct-pop" id="ct-phone"><span class="ct-info">+30 698 075 9683</span></div>
+      </div>
+    </div>
+    <div class="foot-note">// designed &amp; built by Vasiliki Mikeli · 2026</div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/gh/darkroomengineering/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

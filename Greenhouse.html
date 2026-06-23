@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greenhouse Automation — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --black: #111111;
+    --text: #D0C0D8;
+    --muted: #888888;
+    --teal: #D0C0D8;
+    --card: #181818;
+    --border: rgba(255, 255, 255, 0.08);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  .navbar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem;
+    background: rgba(20, 15, 30, 0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+
+  .navbar a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .navbar a:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+  }
+
+  .navbar a.back {
+    color: var(--teal);
+  }
+
+  .gh-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 120px 8vw 60px;
+    background: #111111;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .gh-hero::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(235, 225, 255, 0.7) 0%, rgba(190, 170, 230, 0.3) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ghGlowPulse 7s ease-in-out infinite;
+  }
+
+  .gh-hero::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: 60px;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(245, 238, 255, 0.55) 0%, rgba(208, 192, 216, 0.25) 45%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ghGlowPulse2 5s ease-in-out infinite;
+  }
+
+  .gh-hero>* {
+    position: relative;
+    z-index: 1;
+  }
+
+  @keyframes ghGlowPulse {
+
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.8
+    }
+
+    50% {
+      transform: scale(1.12);
+      opacity: 1
+    }
+  }
+
+  @keyframes ghGlowPulse2 {
+
+    0%,
+    100% {
+      transform: scale(0.9);
+      opacity: 0.6
+    }
+
+    50% {
+      transform: scale(1.1);
+      opacity: 1
+    }
+  }
+
+  .gh-hero h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .gh-hero h1 span {
+    color: var(--teal);
+  }
+
+  .gh-hero p {
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
+    color: var(--muted);
+    max-width: 700px;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .gh-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .gh-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    color: var(--text);
+  }
+
+  .gh-content {
+    width: 100%;
+    padding: 80px 8vw;
+  }
+
+  .gh-section {
+    margin-bottom: 60px;
+  }
+
+  .gh-section h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1.2rem;
+  }
+
+  .gh-section h2 span {
+    color: var(--teal);
+  }
+
+  .gh-section p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .gh-params {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+
+  .gh-param {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+  }
+
+  .gh-param-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .gh-param-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--teal);
+  }
+
+  .gh-components {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+
+  .gh-comp {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+
+  .gh-comp::before {
+    content: '▸ ';
+    color: var(--teal);
+    font-size: 0.7rem;
+  }
+
+  .gh-img-wrap {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 1.2rem;
+    max-width: 750px;
+  }
+
+  .gh-img-wrap img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    display: block;
+    border-radius: 14px;
+  }
+
+  .gh-img-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    padding: 0.7rem 1.2rem;
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.1em;
+  }
+
+  .gh-steps {
+    margin-top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .gh-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+  }
+
+  .gh-step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--teal);
+    min-width: 2rem;
+    opacity: 0.6;
+  }
+
+  .gh-step-text {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .gh-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 60px 0;
+  }
+
+  @media(max-width:768px) {
+    .gh-params {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media(max-width:480px) {
+    .gh-params {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html#proj1" class="back">← Back</a>
+  <a href="index.html#proj1">Projects</a>
+  <a href="index.html#contact">Contact</a>
+</nav>
+<div class="gh-hero">
+  <h1>Greenhouse <span>Automation</span></h1>
+  <p>Greenhouse automation system using Arduino Uno R3 with temperature and light intensity monitoring and control.</p>
+  <div class="gh-tags">
+    <span class="gh-tag">Arduino Uno R3</span>
+    <span class="gh-tag">Servo Motor</span>
+    <span class="gh-tag">DC Motor</span>
+    <span class="gh-tag">Photoresistor</span>
+    <span class="gh-tag">Temperature Sensor</span>
+  </div>
+</div>
+<div class="gh-content">
+  <div class="gh-section">
+    <h2>Project <span>Description</span></h2>
+    <p>The goal of the project is to design and demonstrate a greenhouse automation system using a microcontroller. The system reads ambient light intensity and temperature, and controls a ventilation fan and a shading mechanism accordingly.</p>
+    <p>Designed and implemented a greenhouse automation system on physical Arduino Uno R3 hardware. Circuit prototyped in Tinkercad prior to physical build.</p>
+  </div>
+  <div class="gh-section">
+    <h2>Design <span>Parameters</span></h2>
+    <div class="gh-params">
+      <div class="gh-param"><div class="gh-param-label">Illuminance threshold (Ev)</div><div class="gh-param-value">1628.36 lux</div></div>
+      <div class="gh-param"><div class="gh-param-label">Max Temperature (Tmax)</div><div class="gh-param-value">33 &deg;C</div></div>
+      <div class="gh-param"><div class="gh-param-label">R1 min</div><div class="gh-param-value">4700 &Omega;</div></div>
+      <div class="gh-param"><div class="gh-param-label">R2 max</div><div class="gh-param-value">1000 &Omega;</div></div>
+    </div>
+  </div>
+  <hr class="gh-divider">
+  <div class="gh-section">
+    <h2>System <span>Components</span></h2>
+    <div class="gh-components">
+      <div class="gh-comp">Arduino Uno R3 (ATmega328)</div>
+      <div class="gh-comp">LCD Screen 16&times;2</div>
+      <div class="gh-comp">Servo Motor (0&ndash;180&deg;)</div>
+      <div class="gh-comp">DC Fan Motor</div>
+      <div class="gh-comp">Photoresistor (LDR)</div>
+      <div class="gh-comp">Temperature Sensor (TMP)</div>
+      <div class="gh-comp">Push Button</div>
+      <div class="gh-comp">Potentiometer</div>
+      <div class="gh-comp">LEDs (Red + Green)</div>
+      <div class="gh-comp">Resistors (1k&Omega;, 2k&Omega;)</div>
+      <div class="gh-comp">Breadboard</div>
+      <div class="gh-comp">Jumper Wires</div>
+    </div>
+  </div>
+  <hr class="gh-divider">
+  <div class="gh-section">
+    <h2>Control <span>Logic</span></h2>
+    <div class="gh-steps">
+      <div class="gh-step"><div class="gh-step-num">01</div><div class="gh-step-text">System waits in standby &mdash; LCD displays "Patiste to button gia enarxi"</div></div>
+      <div class="gh-step"><div class="gh-step-num">02</div><div class="gh-step-text">Button press activates system &mdash; LCD confirms "Automatismos Thermokipiou ON"</div></div>
+      <div class="gh-step"><div class="gh-step-num">03</div><div class="gh-step-text">Photoresistor reads ambient light (LUX). If LUX &gt; 1628.36 &rarr; Red LED ON; if LUX &lt; 1628.36 &rarr; Red LED OFF</div></div>
+      <div class="gh-step"><div class="gh-step-num">04</div><div class="gh-step-text">Temperature sensor reads ambient temp. If T &gt; 33&deg;C &rarr; Green LED ON + Fan motor activates; else &rarr; Fan OFF</div></div>
+      <div class="gh-step"><div class="gh-step-num">05</div><div class="gh-step-text">Servo shading mechanism angle calculated: angle = (&minus;17/33) &times; LUX + 227 &mdash; adjusts fins based on light intensity</div></div>
+      <div class="gh-step"><div class="gh-step-num">06</div><div class="gh-step-text">LCD displays real-time LUX and temperature values continuously</div></div>
+    </div>
+  </div>
+  <hr class="gh-divider">
+  <div class="gh-section">
+    <h2>Electrical <span>Schematic</span></h2>
+    <p>Electronic circuit schematic &mdash; designed in Tinkercad.</p>
+    <div class="gh-img-wrap">
+      <img src="circuit.png" alt="Greenhouse circuit schematic" onerror="this.parentElement.innerHTML='<div style=\'padding:3rem;text-align:center;font-family:JetBrains Mono,monospace;font-size:.75rem;color:#555;letter-spacing:.1em\'>[ SCHEMATIC IMAGE — add circuit.png to folder ]</div>'">
+      <div class="gh-img-caption">// Figure 1 — Electrical circuit schematic</div>
+    </div>
+  </div>
+  <div class="gh-section">
+    <h2>Flow <span>Diagram</span></h2>
+    <p>Control logic flowchart of the automation system.</p>
+    <div class="gh-img-wrap">
+      <img src="flowchart.png" alt="System flowchart" onerror="this.parentElement.innerHTML='<div style=\'padding:3rem;text-align:center;font-family:JetBrains Mono,monospace;font-size:.75rem;color:#555;letter-spacing:.1em\'>[ FLOWCHART IMAGE — add flowchart.png to folder ]</div>'">
+      <div class="gh-img-caption">// Figure 2 — Control logic flowchart</div>
+    </div>
+  </div>
+</div>
+<script>
+  (function() {
+    const items = document.querySelectorAll('.gh-hero > *, .gh-section, .gh-divider');
+    items.forEach((el) => { el.style.opacity='0'; el.style.transform='translateY(28px)'; el.style.transition='opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.7,.2,1)'; });
+    const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; io.unobserve(e.target); } }); }, { threshold: 0.12 });
+    items.forEach(el => io.observe(el));
+    const heroItems = document.querySelectorAll('.gh-hero > *');
+    heroItems.forEach((el, i) => { setTimeout(() => { el.style.opacity='1'; el.style.transform='translateY(0)'; }, 120 + i * 120); });
+  })();
+</script>
+</body>
+</html>
