@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CubeSat Telemetry System — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black:  #111111;
+    --text:   #D0C0D8;
+    --muted:  #888888;
+    --teal:   #D0C0D8;
+    --card:   #181818;
+    --border: rgba(255,255,255,0.08);
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    position: fixed;
+    top: 20px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem;
+    background: rgba(20,15,30,0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+  .navbar a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .navbar a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .navbar a.back { color: var(--teal); }
+
+  /* HERO */
+  .gh-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 120px 8vw 60px;
+    background: #111111;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .gh-hero::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(235,225,255,0.7) 0%, rgba(190,170,230,0.3) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ghGlowPulse 7s ease-in-out infinite;
+  }
+  .gh-hero::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: 60px;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(245,238,255,0.55) 0%, rgba(208,192,216,0.25) 45%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ghGlowPulse2 5s ease-in-out infinite;
+  }
+  .gh-hero > * { position: relative; z-index: 1; }
+  @keyframes ghGlowPulse {
+    0%,100% { transform: scale(1);    opacity: 0.8; }
+    50%     { transform: scale(1.12); opacity: 1;   }
+  }
+  @keyframes ghGlowPulse2 {
+    0%,100% { transform: scale(0.9); opacity: 0.6; }
+    50%     { transform: scale(1.1); opacity: 1;   }
+  }
+  .gh-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .gh-label::before { content: '// '; opacity: 0.5; }
+  .gh-hero h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .gh-hero h1 span { color: var(--teal); }
+  /* IN PROGRESS badge */
+  .gh-progress {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #111;
+    background: var(--teal);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    margin-bottom: 1.2rem;
+    width: fit-content;
+    box-shadow: 0 0 18px rgba(208,192,216,0.4);
+  }
+  .gh-progress .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #111;
+    animation: blink 1.3s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+  .gh-hero p {
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
+    color: var(--muted);
+    max-width: 700px;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  .gh-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .gh-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    color: var(--text);
+  }
+
+  /* CONTENT */
+  .gh-content { width: 100%; padding: 80px 8vw; }
+  .gh-section { margin-bottom: 60px; }
+  .gh-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .gh-section-title::before { content: '// '; opacity: 0.5; }
+  .gh-section h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1.2rem;
+  }
+  .gh-section h2 span { color: var(--teal); }
+  .gh-section p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  /* params */
+  .gh-params {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+  .gh-param {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+  }
+  .gh-param-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .gh-param-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--teal);
+  }
+
+  /* components / list */
+  .gh-components {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+  .gh-comp {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+  .gh-comp::before { content: '▸ '; color: var(--teal); font-size: 0.7rem; }
+
+  /* logic steps */
+  .gh-steps {
+    margin-top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .gh-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+  }
+  .gh-step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--teal);
+    min-width: 2rem;
+    opacity: 0.6;
+  }
+  .gh-step-text { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+  .gh-step-text strong { color: var(--text); font-weight: 600; }
+
+  /* image */
+  .gh-img-wrap {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 1.2rem;
+    max-width: 750px;
+  }
+  .gh-img-wrap img { width: 100%; height: auto; max-height: 500px; object-fit: contain; display: block; }
+  .gh-img-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    padding: 0.7rem 1.2rem;
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.1em;
+  }
+
+  /* divider */
+  .gh-divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+
+  @media(max-width:768px){ .gh-params { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:480px){ .gh-params { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html#proj1" class="back">← Back</a>
+  <a href="index.html#proj1">Projects</a>
+  <a href="index.html#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<div class="gh-hero">
+  <div class="gh-label">aerospace · embedded systems · fpga</div>
+  <div class="gh-progress"><span class="dot"></span> In Progress · MSc Thesis</div>
+  <h1>CubeSat Telemetry <span>System on FPGA</span></h1>
+  <p>Design and implementation of a CubeSat telemetry system on FPGA, handling onboard sensor data acquisition, CCSDS-compliant frame formatting, and downlink transmission logic entirely in reconfigurable hardware.</p>
+  <div class="gh-tags">
+    <span class="gh-tag">VHDL</span>
+    <span class="gh-tag">FPGA</span>
+    <span class="gh-tag">CCSDS</span>
+    <span class="gh-tag">CubeSat</span>
+    <span class="gh-tag">Telemetry</span>
+    <span class="gh-tag">Digital Design</span>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="gh-content">
+
+  <!-- Overview -->
+  <div class="gh-section">
+    <div class="gh-section-title">overview</div>
+    <h2>Project <span>Description</span></h2>
+    <p>The goal of this thesis is to design and implement a telemetry subsystem for a CubeSat entirely on FPGA fabric, replacing a conventional microcontroller-based telemetry chain with dedicated, reconfigurable hardware logic.</p>
+    <p>The system collects housekeeping and payload sensor data on board, packages it into standardised telemetry frames, and prepares it for downlink &mdash; following the CCSDS telemetry framing standard used across real spacecraft missions.</p>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Approach / Specs -->
+  <div class="gh-section">
+    <div class="gh-section-title">approach</div>
+    <h2>System <span>Overview</span></h2>
+    <div class="gh-params">
+      <div class="gh-param">
+        <div class="gh-param-label">HDL</div>
+        <div class="gh-param-value">VHDL</div>
+      </div>
+      <div class="gh-param">
+        <div class="gh-param-label">Standard</div>
+        <div class="gh-param-value">CCSDS</div>
+      </div>
+      <div class="gh-param">
+        <div class="gh-param-label">Target</div>
+        <div class="gh-param-value">FPGA</div>
+      </div>
+      <div class="gh-param">
+        <div class="gh-param-label">Domain</div>
+        <div class="gh-param-value">CubeSat</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Core building blocks -->
+  <div class="gh-section">
+    <div class="gh-section-title">architecture</div>
+    <h2>Core <span>Building Blocks</span></h2>
+    <p>The system is organised as a set of communicating VHDL modules, each responsible for one stage of the telemetry pipeline:</p>
+    <div class="gh-components">
+      <div class="gh-comp">Sensor Data Acquisition</div>
+      <div class="gh-comp">CCSDS Frame Formatter</div>
+      <div class="gh-comp">Data Buffering / FIFO</div>
+      <div class="gh-comp">Downlink Transmission Logic</div>
+      <div class="gh-comp">Clocking &amp; Control Unit</div>
+      <div class="gh-comp">Testbench &amp; Simulation</div>
+    </div>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Design flow -->
+  <div class="gh-section">
+    <div class="gh-section-title">design flow</div>
+    <h2>Development <span>Flow</span></h2>
+    <div class="gh-steps">
+      <div class="gh-step"><div class="gh-step-num">01</div><div class="gh-step-text"><strong>Requirements &amp; standard study</strong> &mdash; reviewing the CCSDS telemetry framing standard and defining the telemetry data model for a representative CubeSat mission.</div></div>
+      <div class="gh-step"><div class="gh-step-num">02</div><div class="gh-step-text"><strong>Module design in VHDL</strong> &mdash; implementing the acquisition, framing, buffering, and transmission blocks as independent, testable entities.</div></div>
+      <div class="gh-step"><div class="gh-step-num">03</div><div class="gh-step-text"><strong>Simulation &amp; verification</strong> &mdash; validating each module and the full pipeline against expected CCSDS frame output using testbenches.</div></div>
+      <div class="gh-step"><div class="gh-step-num">04</div><div class="gh-step-text"><strong>FPGA implementation</strong> &mdash; synthesising and deploying the design to target hardware for functional testing.</div></div>
+    </div>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Status -->
+  <div class="gh-section">
+    <div class="gh-section-title">status</div>
+    <h2>Current <span>Progress</span></h2>
+    <div class="gh-steps">
+      <div class="gh-step"><div class="gh-step-num">→</div><div class="gh-step-text">Thesis topic defined: CubeSat telemetry system design on FPGA, following the CCSDS standard.</div></div>
+      <div class="gh-step"><div class="gh-step-num">→</div><div class="gh-step-text">Ongoing: system architecture, module breakdown, and VHDL implementation.</div></div>
+    </div>
+  </div>
+
+</div><!-- /gh-content -->
+
+<script>
+  // Reveal sections with an upward rise
+  (function() {
+    const items = document.querySelectorAll('.gh-hero > *, .gh-section, .gh-divider');
+    items.forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.7,.2,1)';
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    items.forEach(el => io.observe(el));
+    const heroItems = document.querySelectorAll('.gh-hero > *');
+    heroItems.forEach((el, i) => {
+      setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 120 + i * 120);
+    });
+  })();
+</script>
+
+</body>
+</html>
