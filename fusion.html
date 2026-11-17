@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adaptive Sensor Fusion for UAV Navigation — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black:  #111111;
+    --text:   #D0C0D8;
+    --muted:  #888888;
+    --teal:   #D0C0D8;
+    --card:   #181818;
+    --border: rgba(255,255,255,0.08);
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    position: fixed;
+    top: 20px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem;
+    background: rgba(20,15,30,0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+  .navbar a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    padding: 0.35rem 1rem;
+    border-radius: 999px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .navbar a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .navbar a.back { color: var(--teal); }
+
+  /* HERO */
+  .gh-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 120px 8vw 60px;
+    background: #111111;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .gh-hero::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(235,225,255,0.7) 0%, rgba(190,170,230,0.3) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ghGlowPulse 7s ease-in-out infinite;
+  }
+  .gh-hero::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: 60px;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(245,238,255,0.55) 0%, rgba(208,192,216,0.25) 45%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: ghGlowPulse2 5s ease-in-out infinite;
+  }
+  .gh-hero > * { position: relative; z-index: 1; }
+  @keyframes ghGlowPulse {
+    0%,100% { transform: scale(1);    opacity: 0.8; }
+    50%     { transform: scale(1.12); opacity: 1;   }
+  }
+  @keyframes ghGlowPulse2 {
+    0%,100% { transform: scale(0.9); opacity: 0.6; }
+    50%     { transform: scale(1.1); opacity: 1;   }
+  }
+  .gh-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .gh-label::before { content: '// '; opacity: 0.5; }
+  .gh-hero h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .gh-hero h1 span { color: var(--teal); }
+  /* IN PROGRESS badge */
+  .gh-progress {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #111;
+    background: var(--teal);
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    margin-bottom: 1.2rem;
+    width: fit-content;
+    box-shadow: 0 0 18px rgba(208,192,216,0.4);
+  }
+  .gh-progress .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #111;
+    animation: blink 1.3s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+  .gh-hero p {
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
+    color: var(--muted);
+    max-width: 700px;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  .gh-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .gh-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    color: var(--text);
+  }
+
+  /* CONTENT */
+  .gh-content { width: 100%; padding: 80px 8vw; }
+  .gh-section { margin-bottom: 60px; }
+  .gh-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .gh-section-title::before { content: '// '; opacity: 0.5; }
+  .gh-section h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1.2rem;
+  }
+  .gh-section h2 span { color: var(--teal); }
+  .gh-section p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  /* params */
+  .gh-params {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+  .gh-param {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+  }
+  .gh-param-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .gh-param-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--teal);
+  }
+
+  /* components / list */
+  .gh-components {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+  .gh-comp {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+  .gh-comp::before { content: '▸ '; color: var(--teal); font-size: 0.7rem; }
+
+  /* logic steps */
+  .gh-steps {
+    margin-top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .gh-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+  }
+  .gh-step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--teal);
+    min-width: 2rem;
+    opacity: 0.6;
+  }
+  .gh-step-text { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+  .gh-step-text strong { color: var(--text); font-weight: 600; }
+
+  /* image */
+  .gh-img-wrap {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 1.2rem;
+    max-width: 750px;
+  }
+  .gh-img-wrap img { width: 100%; height: auto; max-height: 500px; object-fit: contain; display: block; }
+  .gh-img-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    padding: 0.7rem 1.2rem;
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.1em;
+  }
+
+  /* divider */
+  .gh-divider { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+
+  @media(max-width:768px){ .gh-params { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:480px){ .gh-params { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html#proj1" class="back">← Back</a>
+  <a href="index.html#proj1">Projects</a>
+  <a href="index.html#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<div class="gh-hero">
+  <div class="gh-label">uav · navigation · sensor fusion</div>
+  <div class="gh-progress"><span class="dot"></span> In Progress · MSc Thesis</div>
+  <h1>Adaptive Sensor Fusion <span>for UAV Navigation</span></h1>
+  <p>Learning-Based Adaptive Fusion of Absolute Localization and Dead-Reckoning for Multi Sensor UAV Navigation &mdash; keeping a reliable position estimate when absolute positioning becomes degraded or unavailable.</p>
+  <div class="gh-tags">
+    <span class="gh-tag">Sensor Fusion</span>
+    <span class="gh-tag">Dead Reckoning</span>
+    <span class="gh-tag">GNSS</span>
+    <span class="gh-tag">IMU</span>
+    <span class="gh-tag">Machine Learning</span>
+    <span class="gh-tag">UAV</span>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="gh-content">
+
+  <!-- Overview -->
+  <div class="gh-section">
+    <div class="gh-section-title">overview</div>
+    <h2>Project <span>Description</span></h2>
+    <p>UAVs typically rely on absolute localization sources such as GNSS for position. When those sources are degraded, jammed or lost, the vehicle has to fall back on dead-reckoning &mdash; integrating its own motion sensors &mdash; which drifts over time.</p>
+    <p>This thesis studies how a learning-based approach can adaptively decide how much to trust each source at every moment, combining absolute localization and dead-reckoning from multiple sensors into a single, more robust navigation estimate.</p>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Approach / Specs -->
+  <div class="gh-section">
+    <div class="gh-section-title">approach</div>
+    <h2>System <span>Overview</span></h2>
+    <div class="gh-params">
+      <div class="gh-param">
+        <div class="gh-param-label">Platform</div>
+        <div class="gh-param-value">UAV</div>
+      </div>
+      <div class="gh-param">
+        <div class="gh-param-label">Absolute</div>
+        <div class="gh-param-value">GNSS</div>
+      </div>
+      <div class="gh-param">
+        <div class="gh-param-label">Relative</div>
+        <div class="gh-param-value">Dead Reckoning</div>
+      </div>
+      <div class="gh-param">
+        <div class="gh-param-label">Method</div>
+        <div class="gh-param-value">Learning-Based</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Core building blocks -->
+  <div class="gh-section">
+    <div class="gh-section-title">architecture</div>
+    <h2>Core <span>Building Blocks</span></h2>
+    <p>The navigation pipeline is organised in stages, from raw sensor data to a fused position estimate:</p>
+    <div class="gh-components">
+      <div class="gh-comp">Multi-Sensor Data Acquisition</div>
+      <div class="gh-comp">Absolute Localization Input</div>
+      <div class="gh-comp">Dead-Reckoning Estimation</div>
+      <div class="gh-comp">Learning-Based Adaptive Weighting</div>
+      <div class="gh-comp">Fused Pose Estimate</div>
+      <div class="gh-comp">Evaluation &amp; Validation</div>
+    </div>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Design flow -->
+  <div class="gh-section">
+    <div class="gh-section-title">design flow</div>
+    <h2>Development <span>Flow</span></h2>
+    <div class="gh-steps">
+      <div class="gh-step"><div class="gh-step-num">01</div><div class="gh-step-text"><strong>Literature &amp; problem definition</strong> &mdash; reviewing sensor fusion and dead-reckoning methods for UAVs and defining degraded-positioning scenarios.</div></div>
+      <div class="gh-step"><div class="gh-step-num">02</div><div class="gh-step-text"><strong>Data collection</strong> &mdash; gathering multi-sensor navigation data for training and evaluation.</div></div>
+      <div class="gh-step"><div class="gh-step-num">03</div><div class="gh-step-text"><strong>Adaptive fusion model</strong> &mdash; developing the learning-based component that weights absolute and dead-reckoning estimates.</div></div>
+      <div class="gh-step"><div class="gh-step-num">04</div><div class="gh-step-text"><strong>Evaluation</strong> &mdash; comparing position accuracy and drift against conventional fusion approaches.</div></div>
+    </div>
+  </div>
+
+  <hr class="gh-divider">
+
+  <!-- Status -->
+  <div class="gh-section">
+    <div class="gh-section-title">status</div>
+    <h2>Current <span>Progress</span></h2>
+    <div class="gh-steps">
+      <div class="gh-step"><div class="gh-step-num">→</div><div class="gh-step-text">Thesis topic defined: learning-based adaptive fusion of absolute localization and dead-reckoning for UAV navigation.</div></div>
+      <div class="gh-step"><div class="gh-step-num">→</div><div class="gh-step-text">Ongoing: method design, data collection and implementation.</div></div>
+    </div>
+  </div>
+
+</div><!-- /gh-content -->
+
+<script>
+  // Reveal sections with an upward rise
+  (function() {
+    const items = document.querySelectorAll('.gh-hero > *, .gh-section, .gh-divider');
+    items.forEach((el) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.7,.2,1)';
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    items.forEach(el => io.observe(el));
+    const heroItems = document.querySelectorAll('.gh-hero > *');
+    heroItems.forEach((el, i) => {
+      setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 120 + i * 120);
+    });
+  })();
+</script>
+
+</body>
+</html>
